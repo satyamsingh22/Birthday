@@ -1,20 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Comic+Neue:wght@700&family=Quicksand:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    cursor: none;
 }
 
 body {
     min-height: 100vh;
-    background: linear-gradient(-45deg, #ffe6e6, #e6e6ff, #ffebf5);
+    background: linear-gradient(-45deg, #1a0f18, #2a1a28, #3a2238, #1f1524);
     background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    animation: gradientBG 18s ease infinite;
     font-family: 'Quicksand', sans-serif;
     overflow-x: hidden;
-    padding: 2rem;
+    padding: 2rem 1rem 4rem;
+    color: #f8e8f0;
 }
 
 .custom-cursor {
@@ -23,18 +23,17 @@ body {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    mix-blend-mode: difference;
-    transition: transform 0.1s;
+    mix-blend-mode: screen;
 }
 
 .custom-cursor svg {
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.5));
+    filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.8));
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 720px;
     margin: 0 auto;
     text-align: center;
     position: relative;
@@ -42,100 +41,259 @@ body {
 }
 
 h1 {
-    font-family: 'Bubblegum Sans', cursive;
-    font-size: 3rem;
-    color: #ff69b4;
-    text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.2rem, 7vw, 3.2rem);
+    color: #ffb6d9;
+    text-shadow: 0 0 25px rgba(255, 105, 180, 0.5);
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: rgba(255, 220, 235, 0.9);
     margin-bottom: 2rem;
-    animation: bounce 1s ease infinite;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.subtitle strong {
+    color: #ff9ecf;
+    font-weight: 600;
+}
+
+/* Split reveal — creative half-half that merges */
+.split-hero {
+    margin-bottom: 2.5rem;
+}
+
+.split-wrap {
+    position: relative;
+    width: min(320px, 90vw);
+    margin: 0 auto;
+    aspect-ratio: 3 / 4;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 20px 50px rgba(255, 105, 180, 0.25);
+    border: 2px solid rgba(255, 182, 193, 0.4);
+}
+
+.split-panel {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.split-left {
+    left: 0;
+    transform: translateX(-8%);
+}
+
+.split-right {
+    right: 0;
+    transform: translateX(8%);
+}
+
+.split-wrap.merged .split-left,
+.split-wrap.merged .split-right {
+    transform: translateX(0);
+}
+
+.split-panel img {
+    width: 200%;
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.split-left img {
+    object-position: left center;
+    margin-left: 0;
+}
+
+.split-right img {
+    object-position: right center;
+    margin-left: -100%;
+}
+
+.split-badge {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.35rem;
+    color: #ffb6d9;
+    z-index: 5;
+    pointer-events: none;
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { box-shadow: 0 0 0 rgba(255, 105, 180, 0); }
+    50% { box-shadow: 0 0 20px rgba(255, 105, 180, 0.6); }
+}
+
+.split-caption {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    opacity: 0.8;
 }
 
 .reason-card {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 182, 193, 0.25);
     border-radius: 20px;
-    padding: 2rem;
-    margin: 1.5rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-.reason-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.2);
+    padding: 1.5rem;
+    margin: 1.25rem 0;
+    text-align: left;
 }
 
 .reason-text {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    line-height: 1.65;
     margin-bottom: 1rem;
-    position: relative;
-    z-index: 2;
 }
 
-.gif-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s;
-    z-index: 1;
+.reason-media {
+    border-radius: 14px;
+    overflow: hidden;
 }
 
-.reason-card:hover .gif-overlay {
-    opacity: 1;
+.reason-media.photo-frame {
+    padding: 0.25rem;
+}
+
+.reason-media img {
+    transition: transform 0.6s ease;
+}
+
+.reason-card:hover .reason-media img {
+    transform: scale(1.02);
+}
+
+.reason-card.featured {
+    border-color: rgba(255, 150, 100, 0.5);
+    box-shadow: 0 0 30px rgba(255, 140, 80, 0.15);
+}
+
+.reason-tag {
+    display: inline-block;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.2rem;
+    color: #ff9ecf;
+    margin-bottom: 0.5rem;
 }
 
 .shuffle-button {
-    background: linear-gradient(45deg, #ff69b4, #ff99cc);
+    background: linear-gradient(135deg, #ff69b4, #c77dff);
     border: none;
     border-radius: 50px;
     padding: 1rem 2rem;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    font-family: inherit;
+    font-weight: 600;
     color: white;
-    margin: 2rem 0;
+    margin: 1.5rem 0 0.5rem;
     cursor: pointer;
-    transition: transform 0.3s;
-    font-family: 'Comic Neue', cursive;
-    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.4);
 }
 
-.shuffle-button:hover {
-    transform: scale(1.1);
+.shuffle-button.story-mode {
+    background: linear-gradient(135deg, #9b6dff, #ff6dc7);
+}
+
+.reason-counter {
+    font-size: 0.9rem;
+    color: #ffb6d9;
+    opacity: 0.8;
+}
+
+.mini-collage {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+}
+
+.mini-collage h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    color: #ff9ecf;
+    margin-bottom: 1rem;
+}
+
+.collage-strip {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scroll-snap-type: x mandatory;
+    align-items: flex-start;
+}
+
+.collage-strip .strip-item {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: #1a0a14;
+    padding: 4px;
+}
+
+.collage-strip .strip-item img {
+    display: block;
+    height: 220px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.collage-strip .gif-strip-item {
+    flex: 0 0 min(300px, 85vw);
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+.collage-strip .strip-item.gif-item img {
+    max-width: 140px;
+}
+
+.ending-section {
+    margin-top: 3rem;
+    opacity: 0;
+    transform: translateY(24px);
+}
+
+.ending-photo {
+    width: min(260px, 75vw);
+    margin: 0 auto 1rem;
+}
+
+.ending-photo.photo-frame img {
+    border-radius: 16px;
+}
+
+.ending-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    color: #ffb6d9;
 }
 
 .floating {
     position: fixed;
     pointer-events: none;
-    animation: float 3s ease-in-out infinite;
-}
-
-.ending-section {
-    margin-top: 4rem;
-    padding: 2rem;
-    text-align: center;
-}
-
-.ending-text {
-    font-family: 'Bubblegum Sans', cursive;
-    font-size: 2rem;
-    color: #ff69b4;
-    margin-bottom: 2rem;
-    opacity: 0;
-    transform: translateY(20px);
-}
-
-.teddy-hug {
-    width: 200px;
-    margin: 0 auto;
-    transform: scale(0);
+    z-index: 0;
 }
 
 @keyframes gradientBG {
@@ -144,51 +302,8 @@ h1 {
     100% { background-position: 0% 50%; }
 }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-@media (max-width: 768px) {
-    h1 { font-size: 2rem; }
-    .reason-card { margin: 1rem; }
-    .reason-text { font-size: 1rem; }
-}
-.shuffle-button {
-    background: linear-gradient(45deg, #ff69b4, #ff99cc);
-    border: none;
-    border-radius: 50px;
-    padding: 1rem 2rem;
-    font-size: 1.2rem;
-    color: white;
-    margin: 2rem 0;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-family: 'Comic Neue', cursive;
-    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
-}
-
-.shuffle-button.story-mode {
-    background: linear-gradient(45deg, #9b6dff, #ff6dc7);
-    transform: scale(1.1);
-}
-
-.shuffle-button:hover {
-    transform: scale(1.1);
-}
-
-.shuffle-button.story-mode:hover {
-    transform: scale(1.2);
-}
-
-.reason-counter {
-    font-size: 0.9rem;
-    color: #ff69b4;
-    margin-top: 1rem;
-    opacity: 0.7;
+@media (pointer: coarse) {
+    .custom-cursor {
+        display: none;
+    }
 }

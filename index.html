@@ -3,21 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday</title>
+    <title>For Soumya — Happy Birthday</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    
+    <link rel="stylesheet" href="media.css">
+    <link rel="stylesheet" href="music.css">
 </head>
 <body>
-    <div class="cursor"></div>
-    <div class="container">
-        <h1>Happy Birthday Priya💗</h1>
-        <div class="greeting"></div>
-        <button class="cta-button">Click to Enter Our World 💕</button>
+    <div id="intro-gate" class="intro-gate">
+        <div class="envelope-scene">
+            <p class="intro-title">Soumya ke liye khaas 💌</p>
+            <p class="intro-sub">Sirf tumhare liye — Satyam ne banaya hai</p>
+            <div class="envelope" role="button" tabindex="0" aria-label="Open envelope">
+                <div class="envelope-body"></div>
+                <div class="envelope-flap"></div>
+                <div class="letter-peek">
+                    Happy Birthday<br>
+                    Bagar Billi 🎂
+                </div>
+            </div>
+            <button type="button" class="open-surprise-btn">Kholo apna surprise ✨</button>
+        </div>
     </div>
 
-    <script src="script.js">
-        
-    </script>
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
+    <div class="photo-orbit" aria-hidden="true"></div>
+    <div class="cursor"></div>
+
+    <div class="container">
+        <p class="eyebrow">Satyam → Soumya</p>
+        <h1>Happy Birthday Soumya 💗</h1>
+        <div class="hero-preview photo-frame hero-main">
+            <img src="assets/images/img06.jpg" alt="Soumya — bagar billi" class="hero-feature">
+        </div>
+        <p class="nicknames">Meri <span>Bagar Billi</span> 🐾</p>
+        <div class="greeting"></div>
+        <button class="cta-button" type="button">Enter Our World 💕</button>
+    </div>
+
+    <script src="music.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

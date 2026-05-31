@@ -3,38 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Why You're My Best Friend! 💖</title>
+    <title>Why Soumya Means Everything</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <link rel="stylesheet" href="./cause.css">
-    <style>
-       
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="cause.css">
+    <link rel="stylesheet" href="media.css">
+    <link rel="stylesheet" href="music.css">
 </head>
 <body>
     <div class="custom-cursor">
-        <svg viewBox="0 0 24 24">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
             <path fill="#ff69b4" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
         </svg>
     </div>
 
     <div class="container">
-        <h1>Happy Birthday Priyaa 💖</h1>
-        
+        <h1>For Soumya — My Rock 💖</h1>
+        <p class="subtitle">Meri <strong>Bagar Billi</strong> — har reason tumhare liye</p>
+
+        <section class="split-hero" id="split-hero">
+            <div class="split-wrap">
+                <div class="split-panel split-left">
+                    <img src="assets/images/img06.jpg" alt="Soumya left">
+                </div>
+                <div class="split-panel split-right">
+                    <img src="assets/images/img06.jpg" alt="Soumya right">
+                </div>
+                <div class="split-badge">Bagar Billi 💕</div>
+            </div>
+            <p class="split-caption">Tap the halves — they become one, just like us.</p>
+        </section>
+
         <div id="reasons-container"></div>
-        
-        <button class="shuffle-button">Click Here... 💕</button>
+
+        <button class="shuffle-button" type="button">Tap for a reason 💕</button>
         <div class="reason-counter"></div>
 
-        <div class="ending-section">
-            <div class="teddy-hug">
-                <img src="./d1.jpg" alt="Teddy Hug">
+        <section class="mini-collage">
+            <h2>Us, in little frames</h2>
+            <div class="collage-strip">
+                <div class="strip-item"><img src="assets/images/img06.jpg" alt="Bagar billi"></div>
+                <div class="strip-item"><img src="assets/images/img01.jpg" alt="Memory 1"></div>
+                <div class="strip-item"><img src="assets/images/img02.jpg" alt="Memory 2"></div>
+                <div class="strip-item gif-strip-item">
+                    <div class="gif-showcase gif-showcase-inline" id="cause-gif-box">
+                        <div class="gif-loader"><div class="gif-loader-spinner"></div></div>
+                        <img src="assets/soumya-memories.gif" alt="Saari yaadein GIF" class="memory-gif" loading="lazy">
+                    </div>
+                </div>
             </div>
-            <div class="ending-text">You're the BESTEST ! 💖</div>
+        </section>
+
+        <div class="ending-section">
+            <div class="ending-photo photo-frame">
+                <img src="assets/images/img06.jpg" alt="Soumya and Satyam">
+            </div>
+            <div class="ending-text">You're my best decision — always. 💖</div>
         </div>
     </div>
 
-    <script src="cause.js">
-       
-    </script>
+    <script src="music.js"></script>
+    <script src="gif-loader.js"></script>
+    <script src="cause.js"></script>
 </body>
 </html>

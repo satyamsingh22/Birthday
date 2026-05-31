@@ -1,0 +1,183 @@
+.music-dock {
+    position: fixed;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    z-index: 9990;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.music-fab {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 182, 193, 0.6);
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.95), rgba(199, 125, 255, 0.95));
+    color: white;
+    font-size: 1.35rem;
+    cursor: pointer;
+    box-shadow: 0 8px 28px rgba(255, 105, 180, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s, box-shadow 0.25s;
+    backdrop-filter: blur(8px);
+    flex-shrink: 0;
+}
+
+.music-picker-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 182, 193, 0.45);
+    background: rgba(30, 15, 25, 0.85);
+    color: #ffb6d9;
+    font-size: 1rem;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.music-picker-btn:hover {
+    transform: scale(1.08);
+    background: rgba(255, 105, 180, 0.35);
+}
+
+.music-fab:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 36px rgba(255, 105, 180, 0.6);
+}
+
+.music-fab.playing {
+    animation: musicPulse 1.5s ease-in-out infinite;
+}
+
+.music-fab.muted-state {
+    opacity: 0.9;
+    background: rgba(60, 40, 55, 0.9);
+}
+
+@keyframes musicPulse {
+    0%, 100% { box-shadow: 0 8px 28px rgba(255, 105, 180, 0.45); }
+    50% { box-shadow: 0 8px 40px rgba(255, 154, 86, 0.7); }
+}
+
+.music-panel {
+    width: min(220px, calc(100vw - 2rem));
+    padding: 0.85rem;
+    border-radius: 16px;
+    background: rgba(15, 8, 14, 0.92);
+    border: 1px solid rgba(255, 182, 193, 0.35);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(12px);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px) scale(0.95);
+    transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+    pointer-events: none;
+}
+
+.music-panel.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.music-panel-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(255, 200, 220, 0.8);
+    margin-bottom: 0.65rem;
+    text-align: center;
+}
+
+.music-tracks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.music-track-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.65rem 0.4rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 182, 193, 0.25);
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffe4f2;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.8rem;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.music-track-btn:hover {
+    background: rgba(255, 105, 180, 0.2);
+    transform: scale(1.03);
+}
+
+.music-track-btn.active {
+    border-color: #ff69b4;
+    background: rgba(255, 105, 180, 0.25);
+    box-shadow: 0 0 16px rgba(255, 105, 180, 0.35);
+}
+
+.track-emoji {
+    font-size: 1.35rem;
+}
+
+.track-name {
+    font-weight: 600;
+}
+
+.music-hint {
+    position: fixed;
+    bottom: 7rem;
+    right: 1rem;
+    z-index: 9989;
+    max-width: 210px;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    color: #ffe4f2;
+    background: rgba(0, 0, 0, 0.65);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 182, 193, 0.35);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s, transform 0.4s;
+}
+
+.music-hint.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+    .music-dock {
+        bottom: 1rem;
+        right: 1rem;
+    }
+
+    .music-fab {
+        width: 48px;
+        height: 48px;
+    }
+
+    .music-picker-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .music-hint {
+        bottom: 6.5rem;
+        right: 0.75rem;
+    }
+}
