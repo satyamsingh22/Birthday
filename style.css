@@ -45,6 +45,7 @@ body {
     border: 2px solid rgba(255, 182, 193, 0.6);
     box-shadow: 0 0 20px rgba(255, 105, 180, 0.4);
     opacity: 0.85;
+    pointer-events: none;
 }
 
 .cursor {
@@ -72,10 +73,14 @@ body {
     transition: opacity 0.8s, visibility 0.8s;
 }
 
+.intro-gate.is-closing,
+.intro-gate.hidden {
+    pointer-events: none;
+}
+
 .intro-gate.hidden {
     opacity: 0;
     visibility: hidden;
-    pointer-events: none;
 }
 
 .envelope-scene {
@@ -105,6 +110,7 @@ body {
     position: relative;
     transform-style: preserve-3d;
     cursor: pointer;
+    touch-action: manipulation;
 }
 
 .envelope-body {
@@ -174,6 +180,9 @@ body {
     background: linear-gradient(135deg, #ff69b4, #ff9a56);
     color: white;
     cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(255, 105, 180, 0.45);
+    min-height: 48px;
     box-shadow: 0 0 40px rgba(255, 105, 180, 0.5);
     animation: btnGlow 2s ease-in-out infinite;
 }
@@ -185,15 +194,18 @@ body {
 
 .container {
     text-align: center;
-    z-index: 2;
+    z-index: 10;
+    position: relative;
     padding: 1.5rem;
     max-width: 560px;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
 }
 
 .container.revealed {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
 }
 
@@ -253,6 +265,8 @@ h1 {
 }
 
 .cta-button {
+    position: relative;
+    z-index: 20;
     padding: 1rem 2.2rem;
     font-size: 1.1rem;
     font-family: inherit;
@@ -264,9 +278,14 @@ h1 {
     border-radius: 50px;
     color: white;
     cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(255, 105, 180, 0.45);
     box-shadow: 0 8px 30px rgba(255, 105, 180, 0.45);
     transition: transform 0.3s, box-shadow 0.3s;
     opacity: 0;
+    pointer-events: auto;
+    min-height: 48px;
+    min-width: min(100%, 280px);
 }
 
 .cta-button:hover {
@@ -296,6 +315,17 @@ h1 {
     .orbit-thumb {
         width: 52px;
         height: 52px;
+    }
+
+    .container {
+        padding: 1.25rem 1rem 6rem;
+        width: 100%;
+    }
+
+    .cta-button {
+        display: inline-block;
+        width: auto;
+        max-width: 100%;
     }
 }
 

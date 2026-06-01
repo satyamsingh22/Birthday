@@ -158,6 +158,8 @@ function initIntroGate(onOpen) {
     function openGate() {
         if (opened) return;
         opened = true;
+        gate.classList.add('is-closing');
+        gate.style.pointerEvents = 'none';
         envelope?.classList.add('open');
         burstHearts(window.innerWidth / 2, window.innerHeight / 2);
         SiteMusic.play();
@@ -177,6 +179,10 @@ function initIntroGate(onOpen) {
 
     btn?.addEventListener('click', openGate);
     envelope?.addEventListener('click', openGate);
+    envelope?.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        openGate();
+    });
     envelope?.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
@@ -185,8 +191,34 @@ function initIntroGate(onOpen) {
     });
 }
 
+function setupCtaNavigation() {
+    document.querySelectorAll('.cta-button').forEach((button) => {
+        if (button.dataset.navBound === '1') return;
+        button.dataset.navBound = '1';
+
+        let navigating = false;
+        const goToCause = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (navigating) return;
+            navigating = true;
+            gsap.to('body', {
+                opacity: 0,
+                scale: 0.98,
+                duration: 0.9,
+                onComplete: () => {
+                    window.location.href = 'cause.html';
+                }
+            });
+        };
+
+        button.addEventListener('click', goToCause);
+    });
+}
+
 function startMainPage() {
     document.querySelector('.container')?.classList.add('revealed');
+    setupCtaNavigation();
 
     const tl = gsap.timeline();
     tl.to('.eyebrow', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' })
@@ -214,14 +246,5 @@ window.addEventListener('load', () => {
 document.querySelectorAll('.cta-button').forEach((button) => {
     button.addEventListener('mouseenter', () => gsap.to(button, { scale: 1.08, duration: 0.3 }));
     button.addEventListener('mouseleave', () => gsap.to(button, { scale: 1, duration: 0.3 }));
-    button.addEventListener('click', () => {
-        gsap.to('body', {
-            opacity: 0,
-            scale: 0.98,
-            duration: 0.9,
-            onComplete: () => {
-                window.location.href = 'cause.html';
-            }
-        });
-    });
 });
+setupCtaNavigation();
