@@ -1,8 +1,14 @@
+const INTRO_AUTO_SECONDS = 3;
+const AUTO_ENTER_SECONDS = 10;
+
 const cursor = document.querySelector('.cursor');
 const greetingText =
     "Meri Bagar Billi Soumya — you stand by me in everything. Thank you for being my strength, my calm, and my happiest place. 💖";
 const greetingElement = document.querySelector('.greeting');
 let charIndex = 0;
+let navigatingToCause = false;
+let introCountdownTimer = null;
+let enterCountdownTimer = null;
 
 if (cursor) {
     document.addEventListener('mousemove', (e) => {
@@ -158,6 +164,7 @@ function initIntroGate(onOpen) {
     function openGate() {
         if (opened) return;
         opened = true;
+        if (introCountdownTimer) clearInterval(introCountdownTimer);
         gate.classList.add('is-closing');
         gate.style.pointerEvents = 'none';
         envelope?.classList.add('open');
@@ -189,36 +196,98 @@ function initIntroGate(onOpen) {
             openGate();
         }
     });
+
+    startIntroCountdown(openGate);
 }
 
-function setupCtaNavigation() {
-    document.querySelectorAll('.cta-button').forEach((button) => {
-        if (button.dataset.navBound === '1') return;
-        button.dataset.navBound = '1';
+function goToCausePage() {
+    if (navigatingToCause) return;
+    navigatingToCause = true;
+    if (introCountdownTimer) clearInterval(introCountdownTimer);
+    if (enterCountdownTimer) clearInterval(enterCountdownTimer);
 
-        let navigating = false;
-        const goToCause = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (navigating) return;
-            navigating = true;
-            gsap.to('body', {
-                opacity: 0,
-                scale: 0.98,
-                duration: 0.9,
-                onComplete: () => {
-                    window.location.href = 'cause.html';
-                }
-            });
-        };
+    gsap.to('body', {
+        opacity: 0,
+        scale: 0.98,
+        duration: 0.9,
+        onComplete: () => {
+            window.location.href = 'cause.html';
+        }
+    });
+}
 
-        button.addEventListener('click', goToCause);
+function runCountdown({ seconds, numberEl, labelEl, labels, onDone }) {
+    let left = seconds;
+    if (numberEl) numberEl.textContent = String(left);
+    if (labelEl && labels?.[left]) labelEl.textContent = labels[left];
+
+    const timer = setInterval(() => {
+        left -= 1;
+        if (numberEl) numberEl.textContent = String(Math.max(left, 0));
+        if (labelEl && labels?.[left]) labelEl.textContent = labels[left];
+
+        if (left <= 0) {
+            clearInterval(timer);
+            onDone();
+        }
+    }, 1000);
+    return timer;
+}
+
+function startEnterCountdown() {
+    const numberEl = document.querySelector('.countdown-number');
+    const labelEl = document.querySelector('.countdown-label');
+    if (!numberEl) {
+        goToCausePage();
+        return;
+    }
+
+    const labels = {
+        10: 'sec mein tumhara surprise khulega… ✨',
+        5: 'bas thodi der aur… 💕',
+        3: 'teen…',
+        2: 'do…',
+        1: 'ek…',
+        0: 'chalo andar! 💖'
+    };
+
+    if (enterCountdownTimer) clearInterval(enterCountdownTimer);
+    enterCountdownTimer = runCountdown({
+        seconds: AUTO_ENTER_SECONDS,
+        numberEl,
+        labelEl,
+        labels,
+        onDone: goToCausePage
+    });
+}
+
+function startIntroCountdown(openGate) {
+    const numberEl = document.querySelector('.intro-countdown-num');
+    const labelEl = document.querySelector('.intro-countdown-text');
+    if (!numberEl) {
+        setTimeout(openGate, 800);
+        return;
+    }
+
+    const labels = {
+        3: 'sec mein khul raha hai…',
+        2: 'taiyaar ho jao… ✨',
+        1: 'bas ek sec…',
+        0: 'khul gaya! 💌'
+    };
+
+    introCountdownTimer = runCountdown({
+        seconds: INTRO_AUTO_SECONDS,
+        numberEl,
+        labelEl,
+        labels,
+        onDone: openGate
     });
 }
 
 function startMainPage() {
     document.querySelector('.container')?.classList.add('revealed');
-    setupCtaNavigation();
+    startEnterCountdown();
 
     const tl = gsap.timeline();
     tl.to('.eyebrow', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' })
@@ -227,7 +296,7 @@ function startMainPage() {
         .from('.hero-feature', { scale: 0.85, opacity: 0, duration: 1 }, '-=0.7')
         .to('.nicknames', { opacity: 1, y: 0, duration: 0.8 }, '-=0.5')
         .to('.greeting', { opacity: 1, duration: 0.5 }, '-=0.3')
-        .to('.cta-button', { opacity: 1, y: 0, duration: 0.8, ease: 'back.out' }, '-=0.2');
+        .to('.auto-countdown', { opacity: 1, y: 0, duration: 0.8, ease: 'back.out' }, '-=0.2');
 
     gsap.to('.hero-feature', { y: -6, duration: 2.5, repeat: -1, yoyo: true, ease: 'sine.inOut' });
 
@@ -243,8 +312,3 @@ window.addEventListener('load', () => {
     initIntroGate(startMainPage);
 });
 
-document.querySelectorAll('.cta-button').forEach((button) => {
-    button.addEventListener('mouseenter', () => gsap.to(button, { scale: 1.08, duration: 0.3 }));
-    button.addEventListener('mouseleave', () => gsap.to(button, { scale: 1, duration: 0.3 }));
-});
-setupCtaNavigation();

@@ -211,10 +211,18 @@ h1 {
     background: linear-gradient(135deg, #9b6dff, #ff6dc7);
 }
 
+.reason-auto-status {
+    font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+    color: #ffc4e0;
+    margin: 1.25rem 0 0.35rem;
+    min-height: 1.5em;
+    line-height: 1.45;
+}
+
 .reason-counter {
     font-size: 0.9rem;
     color: #ffb6d9;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .mini-collage {

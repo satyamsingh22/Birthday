@@ -34,11 +34,16 @@ const reasons = [
     }
 ];
 
+const REASON_INTERVAL_SEC = 5;
+
 let currentReasonIndex = 0;
 const reasonsContainer = document.getElementById('reasons-container');
 const shuffleButton = document.querySelector('.shuffle-button');
 const reasonCounter = document.querySelector('.reason-counter');
+const reasonAutoStatus = document.querySelector('.reason-auto-status');
 let isTransitioning = false;
+let countdownInterval = null;
+let navigatingToLast = false;
 
 function createReasonCard(reason) {
     const card = document.createElement('article');
@@ -70,6 +75,10 @@ function createReasonCard(reason) {
         ease: 'back.out(1.4)'
     });
 
+    requestAnimationFrame(() => {
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
     return card;
 }
 
@@ -90,56 +99,104 @@ function initSplitHero() {
     setTimeout(() => wrap.classList.add('merged'), 2500);
 }
 
-function displayNewReason() {
-    if (isTransitioning) return;
-    isTransitioning = true;
-
-    if (currentReasonIndex < reasons.length) {
-        reasonsContainer.appendChild(createReasonCard(reasons[currentReasonIndex]));
-        reasonCounter.textContent = `Reason ${currentReasonIndex + 1} of ${reasons.length}`;
-        currentReasonIndex++;
-        createFloatingElement();
-
-        if (currentReasonIndex === reasons.length) {
-            shuffleButton.dataset.mode = 'memories';
-            gsap.to(shuffleButton, {
-                scale: 1.05,
-                duration: 0.5,
-                ease: 'elastic.out(1, 0.5)',
-                onComplete: () => {
-                    shuffleButton.textContent = 'See Our Memories ✨';
-                    shuffleButton.classList.add('story-mode');
-                }
-            });
-            gsap.to('.ending-section', {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                delay: 0.3,
-                ease: 'power2.out'
-            });
-        }
-
-        setTimeout(() => {
-            isTransitioning = false;
-        }, 500);
-    }
+function updateAutoStatus(text) {
+    if (reasonAutoStatus) reasonAutoStatus.textContent = text;
 }
 
-shuffleButton.addEventListener('click', () => {
-    gsap.to(shuffleButton, { scale: 0.92, duration: 0.1, yoyo: true, repeat: 1 });
-    if (shuffleButton.dataset.mode === 'memories') {
-        gsap.to('body', {
-            opacity: 0,
-            duration: 0.9,
-            onComplete: () => {
-                window.location.href = 'last.html';
-            }
-        });
+function goToLastPage() {
+    if (navigatingToLast) return;
+    navigatingToLast = true;
+    if (countdownInterval) clearInterval(countdownInterval);
+    updateAutoStatus('Memories khul rahi hain… ✨');
+    gsap.to('body', {
+        opacity: 0,
+        duration: 0.9,
+        onComplete: () => {
+            window.location.href = 'last.html';
+        }
+    });
+}
+
+function runWaitCountdown(seconds, onDone, tickLabel) {
+    let left = seconds;
+    updateAutoStatus(tickLabel(left));
+
+    if (countdownInterval) clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+        left -= 1;
+        updateAutoStatus(tickLabel(left));
+        if (left <= 0) {
+            clearInterval(countdownInterval);
+            onDone();
+        }
+    }, 1000);
+}
+
+function displayNewReason(onComplete) {
+    if (isTransitioning) return;
+    if (currentReasonIndex >= reasons.length) {
+        onComplete?.();
         return;
     }
-    displayNewReason();
-});
+
+    isTransitioning = true;
+
+    reasonsContainer.appendChild(createReasonCard(reasons[currentReasonIndex]));
+    reasonCounter.textContent = `Reason ${currentReasonIndex + 1} of ${reasons.length}`;
+    currentReasonIndex++;
+    createFloatingElement();
+
+    if (currentReasonIndex === reasons.length) {
+        if (shuffleButton) shuffleButton.dataset.mode = 'memories';
+        gsap.to('.ending-section', {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            delay: 0.3,
+            ease: 'power2.out'
+        });
+    }
+
+    setTimeout(() => {
+        isTransitioning = false;
+        onComplete?.();
+    }, 500);
+}
+
+function showNextReasonAuto() {
+    if (shuffleButton?.dataset.mode === 'memories') {
+        runWaitCountdown(
+            REASON_INTERVAL_SEC,
+            goToLastPage,
+            (sec) => `Memories ${sec} sec mein khulengi… ✨`
+        );
+        return;
+    }
+
+    if (currentReasonIndex >= reasons.length) return;
+
+    displayNewReason(() => {
+        if (currentReasonIndex >= reasons.length) {
+            runWaitCountdown(
+                REASON_INTERVAL_SEC,
+                showNextReasonAuto,
+                (sec) => `Memories ${sec} sec mein… ✨`
+            );
+            return;
+        }
+
+        runWaitCountdown(
+            REASON_INTERVAL_SEC,
+            showNextReasonAuto,
+            (sec) => `Agla reason ${sec} sec mein khulega… 💕`
+        );
+    });
+}
+
+function startAutoReasons() {
+    updateAutoStatus('Pehla reason aa raha hai… 💕');
+    showNextReasonAuto();
+}
 
 function createFloatingElement() {
     const elements = ['🌸', '✨', '💖', '🦋', '⭐', '💝', '🐾'];
@@ -173,4 +230,5 @@ gsap.from('h1', { opacity: 0, y: -30, duration: 1, ease: 'bounce.out' });
 gsap.from('.subtitle', { opacity: 0, duration: 0.8, delay: 0.3 });
 
 initSplitHero();
+setTimeout(startAutoReasons, 2800);
 setInterval(createFloatingElement, 2200);

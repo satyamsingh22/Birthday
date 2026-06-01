@@ -170,6 +170,26 @@ body {
     }
 }
 
+.intro-countdown {
+    margin-bottom: 1.25rem;
+}
+
+.intro-countdown-num {
+    display: block;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 3rem;
+    font-weight: 600;
+    color: #ffb6d9;
+    text-shadow: 0 0 30px rgba(255, 105, 180, 0.6);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+}
+
+.intro-countdown-text {
+    color: rgba(255, 220, 235, 0.9);
+    font-size: 0.95rem;
+}
+
 .open-surprise-btn {
     padding: 1rem 2.2rem;
     font-size: 1.1rem;
@@ -262,6 +282,49 @@ h1 {
     min-height: 3.5em;
     line-height: 1.6;
     opacity: 0;
+}
+
+.auto-countdown {
+    margin: 0 auto 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.container.revealed .auto-countdown {
+    opacity: 1;
+}
+
+.countdown-ring {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 88px;
+    height: 88px;
+    margin: 0 auto 0.75rem;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 182, 193, 0.45);
+    background: rgba(255, 105, 180, 0.15);
+    box-shadow: 0 0 30px rgba(255, 105, 180, 0.35);
+    animation: countdownPulse 1s ease-in-out infinite;
+}
+
+.countdown-number {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #ffb6d9;
+    line-height: 1;
+}
+
+.countdown-label {
+    font-size: clamp(0.9rem, 3.5vw, 1.05rem);
+    color: #ffc4e0;
+    line-height: 1.45;
+}
+
+@keyframes countdownPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 24px rgba(255, 105, 180, 0.3); }
+    50% { transform: scale(1.05); box-shadow: 0 0 40px rgba(255, 154, 86, 0.5); }
 }
 
 .cta-button {
